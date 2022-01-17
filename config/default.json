@@ -1,0 +1,5 @@
+{
+    "mongoURI":"mongodb+srv://bicycle_keeper:bicycle_keeper@bicyclekeeper.f7dju.mongodb.net/db_bicyclekeeper?retryWrites=true&w=majority",
+    "jwtSecret":"Contantsecret"
+}
+
