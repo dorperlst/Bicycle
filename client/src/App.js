@@ -14,7 +14,8 @@ import { NotFound } from './components/pages/NotFound';
 import PrivateRoute from './components/routing/PrivateRoute';
 import Bicycles from './components/pages/Bicycles';
 import UserState from './context/user/UserState';
- 
+import './style/bootstrap.min.css'
+
 const App =()  => {
    return (
        <AuthState>

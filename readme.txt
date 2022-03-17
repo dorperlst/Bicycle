@@ -10,7 +10,7 @@ mongodb+srv://bicycle_keeper:<password>@bicyclekeeper.f7dju.mongodb.net/myFirstD
 git config --global --list
 
 client: npm run build
-
+"cd react-ui/ && npm install --only=dev && NODE_ENV=development npm install --no-shrinkwrap && npm run build"
 
 heroku login
 git add .

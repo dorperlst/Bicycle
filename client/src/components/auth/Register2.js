@@ -4,8 +4,7 @@ import AlertContext from '../../context/alert/alertContext'
 import AuthContext from '../../context/auth/authContext'
 import { useNavigate } from "react-router-dom";
 import '../../style/login.css';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-
+ 
 const Register = props => {
     const alertContext = useContext(AlertContext)
     const authContext = useContext(AuthContext)

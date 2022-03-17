@@ -4,7 +4,6 @@ import AlertContext from '../../context/alert/alertContext'
 import { useNavigate } from "react-router-dom";
 import Spinner from '../layout/Spinner'
 import '../../style/login.css';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 const Login = (props) => {
     const alertContext = useContext(AlertContext)

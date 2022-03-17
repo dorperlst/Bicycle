@@ -2,8 +2,7 @@ import React, {useContext, Fragment} from 'react'
 import PropTypes from 'prop-types'
 import BicycleContext from '../../context/bicycle/bicycleContext'
 import Spinner from '../layout/Spinner'
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-
+ 
 export const BicycleItem = ({bicycle}) => {
     const bicycleContext = useContext(BicycleContext) 
     const {deleteBicycle, setCurrent, clearCurrent, loading} = bicycleContext
