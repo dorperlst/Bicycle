@@ -15,5 +15,8 @@ client: npm run build
 heroku login
 git add .
 git commit -m "Prepare to deploy
+ git push heroku master
 
 heroku git:remote -a rocky-island-83843
+
+
