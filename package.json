@@ -9,8 +9,9 @@
     "client": " npm start --prefix client/",
     "clientinstall": "npm install --perfix client",
     "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --perfix client && npm run build --prefix client "
-  },
+    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false cd client/ && npm install --only=dev && NODE_ENV=development npm install --no-shrinkwrap && npm run build --prefix client ",
+ 
+   },
   "author": "",
   "license": "ISC",
   "dependencies": {
