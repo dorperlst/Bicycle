@@ -30,7 +30,7 @@ const Login = (props) => {
          password: '111111'
     })
 
-    const onChange = e => setUser({...user, [e.target.name]:e.target.value})
+    // const onChange = e => setUser({...user, [e.target.name]:e.target.value})
   
     const onSubmit = e =>{
         e.preventDefault()
@@ -41,7 +41,7 @@ const Login = (props) => {
         {
             try
             {
-                login({ email, password})
+                login({ email.value, password})
             }
             catch(error)
             {
