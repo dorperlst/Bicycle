@@ -24,7 +24,7 @@ const  BicycleState = props=>{
   const searchBicycles = async ()=>{
     
     try {
-      const res =  await axios.get('http://localhost:5000/api/bicycles/list')
+      const res =  await axios.get('http://localhost:5300/api/bicycles/list')
       dispatch({
          type: SEARCH_BICYCLES, 
          payload: res.data
@@ -43,7 +43,7 @@ const  BicycleState = props=>{
   const getBicyclesList = async ()=>{
     
     try {
-      const res =  await axios.get('http://localhost:5000/api/bicycles/list')
+      const res =  await axios.get('http://localhost:5300/api/bicycles/list')
       dispatch({
          type: GET_BICYCLES, 
          payload: res.data
@@ -72,7 +72,7 @@ const  BicycleState = props=>{
         }
       }
       try {
-        const res =  await axios.get('http://localhost:5000/api/bicycles', config)
+        const res =  await axios.get('http://localhost:5300/api/bicycles', config)
         dispatch({
            type: GET_BICYCLES, 
            payload: res.data
@@ -98,7 +98,7 @@ const  BicycleState = props=>{
         }
       }
       try {
-        const res =  await axios.post('http://localhost:5000/api/bicycles', bicycle, config)
+        const res =  await axios.post('http://localhost:5300/api/bicycles', bicycle, config)
         dispatch({
            type: ADD_BICYCLE, 
            payload: res.data
@@ -126,7 +126,7 @@ const  BicycleState = props=>{
         }
         try {
 
-          const res =  await axios.delete(`http://localhost:5000/api/bicycles/${id}`, config)
+          const res =  await axios.delete(`http://localhost:5300/api/bicycles/${id}`, config)
           dispatch({
              type: DELETE_BICYCLE, 
              payload: id
@@ -155,7 +155,7 @@ const  BicycleState = props=>{
         }
       }
       try {
-        const res =  await axios.put(`http://localhost:5000/api/bicycles/${bicycle._id}`, bicycle, config)
+        const res =  await axios.put(`http://localhost:5300/api/bicycles/${bicycle._id}`, bicycle, config)
         dispatch({
            type: UPDATE_BICYCLE, 
            payload: res.data
@@ -192,7 +192,7 @@ const  BicycleState = props=>{
       }
 
       try {
-         const res =  await axios.post(`http://localhost:5000/api/bicycles/changeOwner/${id}`, 
+         const res =  await axios.post(`http://localhost:5300/api/bicycles/changeOwner/${id}`, 
               {userId: userId}, {headers: headers })
 
          dispatch({
