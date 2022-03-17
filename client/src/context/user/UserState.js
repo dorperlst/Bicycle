@@ -32,7 +32,7 @@ const  UserState = props=>{
       }
     }
     try {
-      const res =  await axios.get(`http://localhost:5300/api/users/search?term=${term}`, config )
+      const res =  await axios.get(`http://localhost:5000/api/users/search?term=${term}`, config )
       dispatch({
          type: FILTER_USERS, 
          payload: res.data
