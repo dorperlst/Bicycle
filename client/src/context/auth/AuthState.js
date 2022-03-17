@@ -94,7 +94,7 @@ const  AuthState =   (props) => {
     }
 
     const login = async FormData =>{   
-           
+           alert('here')
         const config = {
             headers : {
                 'Content-type' : 'application/json',
@@ -102,6 +102,8 @@ const  AuthState =   (props) => {
 
         }
         try {
+            alert('here2')
+
             const res =  await axios.post('http://localhost:5000/api/auth', {
                 email: 'dorperlst@gmail.com',
                 password: '111111'
@@ -110,10 +112,13 @@ const  AuthState =   (props) => {
                type: LOGIN_SUCCESS, 
                payload: res.data
             }) 
- 
+            alert('loadUser')
+
             await loadUser()
         } 
         catch (error) {
+            alert(error)
+
             console.log(error)
 
             dispatch({
