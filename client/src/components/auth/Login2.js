@@ -30,7 +30,7 @@ const Login = (props) => {
          password: '111111'
     })
 
-    // const onChange = e => setUser({...user, [e.target.name]:e.target.value})
+    const onChange = e => setUser({...user, [e.target.name]:e.target.value})
   
     const onSubmit = e =>{
         e.preventDefault()
@@ -65,7 +65,7 @@ const Login = (props) => {
                     <form onSubmit={onSubmit} method="post" name="login">
                             <div className="form-group">
                                 <label htmlFor="email">Email address</label>
-                                <input type="email" name="email" value={email} onChange={onChange}  className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
+                                <input type="email" name="email" value={email}   className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
