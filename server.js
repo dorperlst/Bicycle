@@ -11,6 +11,7 @@ app.use(cors({credentials: true, origin: true}))
 app.use('/api/users', require('./routes/users'))
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/bicycles', require('./routes/bicycles'))
+app.get('/',(req,res)=>res.json({msg:'welcome to contact keeper api'}))
 
 if(process.env.NODE_ENV === 'production')
 {
