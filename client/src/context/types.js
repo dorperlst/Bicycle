@@ -19,6 +19,17 @@ export const CLEAR_ERRORS = 'CLEAR_ERROR'
 export const LOGOUT = 'LOGOUT'
 export const BICYCLE_ERROR = 'BICYCLE_ERROR'
 export const SET_LOADING = 'SET_LOADING'
+export const GET_USERS = 'GET_USERS'
+export const CLEAR_USERS = 'CLEAR_USERS'
+export const FILTER_USERS = 'FILTER_USERS'
+export const USER_ERROR = 'USER_ERROR'
+export const CHANGE_OWNER = 'CHANGE_OWNER'
+export const SHOW_USERS = 'SHOW_USERS'
+export const HIDE_USERS = 'HIDE_USERS'
+export const SEARCH_BICYCLES = 'SEARCH_BICYCLES'
+
+
+
 
 
 

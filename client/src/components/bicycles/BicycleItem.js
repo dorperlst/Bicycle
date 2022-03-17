@@ -1,40 +1,41 @@
-import React, {useContext} from 'react'
+import React, {useContext, Fragment} from 'react'
 import PropTypes from 'prop-types'
 import BicycleContext from '../../context/bicycle/bicycleContext'
+import Spinner from '../layout/Spinner'
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
 export const BicycleItem = ({bicycle}) => {
-    const bicycleContext =  useContext(BicycleContext) 
-    const {deleteBicycle, setCurrent, clearCurrent, current} = bicycleContext
-    const{_id, name, email, phone, type} = bicycle
- 
+    const bicycleContext = useContext(BicycleContext) 
+    const {deleteBicycle, setCurrent, clearCurrent, loading} = bicycleContext
+    const{_id, code, } = bicycle
+
     const onDelete=()=>{
+        setCurrent(bicycle)
         deleteBicycle(_id);
         clearCurrent();
     }
+
     const onUpdate=()=>{
-        
          setCurrent(bicycle)
- 
     }
-
     return (
-        <div className='card bg-light'>
-            <h3 className='text-primary text-left'>
-                {name}{' '} 
+        <Fragment>
+            {!loading ? (  
+                <div  className='elem card bg-light'>
+                    <h3 className='text-primary text-left'>
+                        {code}{' '} 
+                    </h3>
+                    <p> 
+                        <button  onClick={onUpdate} type="button" className="btn btn-outline-secondary">Edit</button>
+                        <button type="button" onClick={onDelete} className="btn btn-outline-danger">Delete</button>
+                    </p>
+                </div>
+                ):<Spinner/>}
+        </Fragment>
+    )
 
-                <span style={{float:'right'}} className={'badge '+ (type === 'professional' ? 'badge-success': 'badge-primary')}>
-                        { type.charAt(0).toUpperCase() + type.slice(1)}
-                </span>
-            </h3>
-            <ul className='list'>
-                {email&&(<li>   <i className='fas fa-envelope-open'>{email}</i></li>)}
-                {phone&&(<li>   <i className='fas fa-phone'>{phone}</i></li>)}
-            </ul>
-            <p><button  onClick={onUpdate}  className= "btn btn-dark btn-sm">Edit</button></p>
-            <p><button   onClick={onDelete}  className ="btn btn-danger btn-sm">Delete</button></p>
 
-
-        </div>
-     )
+ 
 }
 BicycleItem.propTypes={
     bicycle:PropTypes.object.isRequired,

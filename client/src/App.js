@@ -7,34 +7,40 @@ import BicycleState from './context/bicycle/BicycleState'
 import AuthState from './context/auth/AuthState'
 import AlertState from './context/alert/AlertState'
 import Alerts from './components/layout/Alerts'
-import Register from './components/auth/Register'
-import Login from './components/auth/Login'
+import Register from './components/auth/Register2'
+import Login from './components/auth/Login2'
 import { About } from './components/pages/About';
 import { NotFound } from './components/pages/NotFound';
 import PrivateRoute from './components/routing/PrivateRoute';
-
-const App =()  => {
-//  localStorage.setItem('token', null)
+import Bicycles from './components/pages/Bicycles';
+import UserState from './context/user/UserState';
  
+const App =()  => {
    return (
        <AuthState>
        <BicycleState>
         <AlertState>
+        <UserState>
           <Router>
             <Fragment>
-                <Navbar title="cooool" icon='fab fa-github'/>
+                <Navbar title="Bicycle App" icon='fa-solid fa-bicycle'/>
                 <div className="App">
                   <Alerts/>
                   <Routes>
-                    <Route path="/" element={ <PrivateRoute><Home/></PrivateRoute>}/>
-                    <Route path="/about" element={<About />} />
+                    <Route path="/myBicycle" element={ <PrivateRoute><Home/></PrivateRoute>}/>
+                    <Route path="/about" element={<About/>} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/" element={<Bicycles />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="/login" element={<Login />} />
+
+ 
                   </Routes>
                 </div>
             </Fragment>
           </Router>
+          </UserState>
+
         </AlertState>
       </BicycleState>
       </AuthState>

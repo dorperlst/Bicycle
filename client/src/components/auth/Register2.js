@@ -1,7 +1,11 @@
+
 import React,{useState, useContext, useEffect} from 'react'
 import AlertContext from '../../context/alert/alertContext'
 import AuthContext from '../../context/auth/authContext'
 import { useNavigate } from "react-router-dom";
+import '../../style/login.css';
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
 const Register = props => {
     const alertContext = useContext(AlertContext)
     const authContext = useContext(AuthContext)
@@ -40,40 +44,56 @@ const Register = props => {
             setAlert('Password do not match', 'danger')
         else
         {
-
             try
             {
-
-                var res = await register({ name, email, password  })
-                // if(res==undefined)
-                // {
-                //     setAlert('Email Allready in use', 'danger')
-
-                // }
-            //    else
-            //    {
-                    
-            //         setUser({  name: '',
-            //             email: '',
-            //             password: '',
-            //             password2: '' })
-            //    }
-
+               await register({ name, email, password  })
             }
             catch(error)
             {
                 console.log ("error"+ error)
-
             }
-            
-           
         }        
     }
     const {  name, email, password, password2} = user
     return (
         <div className='form-container'>
-      
-            <h1>Account <span className='text-primary'>Register</span>   </h1>
+        <div id="second">
+            <div className="myform form ">
+                <div className="logo mb-3">
+                    <div className="col-md-12 text-center">
+                    <h1 >Signup</h1>
+                </div>
+            </div>
+                <form onSubmit={onSubmit} name="registration">
+                    <div className="form-group">
+                        <label htmlFor='name'>Name</label>
+                        <input name="name" required className="form-control"  value={name} onChange={onChange} placeholder="Enter Firstname" type="text"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor='name'>Email</label>
+                        <input name="email" id="email"   required className="form-control"  value={email} onChange={onChange} placeholder="Enter Email" type="email"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor='password'>Password</label>
+                        <input name="password" id="password"  minLength={6}  className="form-control" value={password} onChange={onChange} type="password"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor='password2'>Confirm Password</label>
+                        <input name="password2" id="password2"  minLength={6}className="form-control" value={password2} onChange={onChange} type="password"/>
+                    </div>
+                    <div className="col-md-12 text-center mb-3">
+                        <button type="submit" className=" btn btn-block mybtn btn-primary tx-tfm">Register</button>
+                    </div>
+                    <div className="col-md-12 ">
+                        <div className="form-group">
+                            <p className="text-center"><a href="#" id="signin">Already have an account?</a></p>
+                        </div>
+                    </div>
+                
+                </form>
+            </div>
+        </div>
+            {/* <h1>Account <span className='text-primary'>Register</span>   </h1>
             <form onSubmit={onSubmit}>
                 <div className='form-group'>
                     <label htmlFor='name'>Name</label>
@@ -85,7 +105,7 @@ const Register = props => {
                 </div>
                 <div className='form-group'>
                     <label htmlFor='password'>Password</label>
-                    <input name="password" required minLength={6}  value={password} onChange={onChange} type="password"/>
+                    <input name="password" required minLength={6}  required value={password} onChange={onChange} type="password"/>
                 </div>
                 <div className='form-group'>
                     <label htmlFor='password2'>Confirm Password</label>
@@ -93,8 +113,12 @@ const Register = props => {
                 </div>
                 <input type="submit" value="Register" className='btn btn-primary btn-block' />   
             </form>
-           
+            */}
         </div>
     )
 }
 export default Register
+
+
+
+

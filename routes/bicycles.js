@@ -4,10 +4,29 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/User')
 const auth = require('../middlewere/auth');
 const Bicycle = require('../models/Bicycle');
+ 
 
-//route get api/bicycles
-//desc get all user bicycles
-//access private  user
+router.get('/list', async (req,res)=>{
+    try {
+        // const bicycles = await Bicycle.find().sort({date:-1})
+        const bicycles = await Bicycle.find().limit(10)    .populate('user')
+       .exec(function (err, bicycles) {
+           //console.log(docs[0].branch.name);
+            if(err)
+                res.status(500).send(err)
+            else
+                res.json(bicycles)
+
+       });
+
+
+    } 
+    catch (error) {
+        console.log(error.message)
+        res.status(500).send("server error")
+    }
+});
+
 
 router.get('/', auth, async (req,res)=>{
     try{
@@ -18,17 +37,18 @@ router.get('/', auth, async (req,res)=>{
    
 });
 
-router.post('/', [auth, [ body('name','name is required').notEmpty()]], async (req,res)=>{
+ 
+router.post('/', [auth, [ body('code','code is required').notEmpty()]], async (req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    const {name, email, phone, type} = req.body
+    const {code} = req.body
  
     try{
         const newBicycle = await new Bicycle(
         {
-            name, email, phone, type, user:req.user.id
+            code, user:req.user.id
         });
         const bicycle = await newBicycle.save();
 
@@ -41,26 +61,53 @@ router.post('/', [auth, [ body('name','name is required').notEmpty()]], async (r
    
 });
 
-//route post api/bicycles
-//desc add new bicycle
-//access private  
-
-// router.post('/',(req,res)=>{
-//     res.send('add bicycle')
-// });
-
-//route put api/bicycles
-//desc update bicycle
-//access private  
-
-router.put('/:id', auth, async (req,res)=>{
-    const {name, email, phone, type} = req.body
+router.get('/changeOwner/:id', async (req,res)=>{
+    const {userId} = req.body
     const bicycleFields={}
-    if(name) bicycleFields.name = name
-    if(email) bicycleFields.email = email
-    if(phone) bicycleFields.phone = phone
-    if(type) bicycleFields.type = type
-try {
+    bicycleFields.userId = userId
+     
+    try {
+   
+            return res.status(401).json({id : req.params.id})
+        
+    } 
+    catch (error) {
+        console.error(err.message)
+        res.status.send('Server Error');
+    }
+    
+});
+
+router.post('/changeOwner/:id', auth,  async (req,res)=>{
+    const {userId} = req.body
+    const bicycleFields={}
+    bicycleFields.user = userId
+     
+    try {
+        let bicycle = await Bicycle.findById(req.params.id)
+        if(!bicycle)
+            return res.status(404).json({msg : 'bicycle not found'})
+        if(bicycle.user.toString() !== req.user.id)
+        {
+            return res.status(401).json({msg : 'Not Autorized'})
+        }
+        bicycle = await Bicycle.findByIdAndUpdate(req.params.id,{$set:bicycleFields},{new:true})
+        
+        res.json(bicycle._id)
+    } 
+    catch (error) {
+        console.error(err.message)
+        res.status.send('Server Error');
+    }
+    
+});
+ 
+router.put('/:id', auth, async (req,res)=>{
+    const { code} = req.body
+    const bicycleFields={}
+    bicycleFields.code = code
+     
+    try {
         let bicycle = await Bicycle.findById(req.params.id)
         if(!bicycle)
             return res.status(404).json({msg : 'bicycle not found'})
@@ -71,16 +118,12 @@ try {
         bicycle = await Bicycle.findByIdAndUpdate(req.params.id,{$set:bicycleFields},{new:true})
         res.json(bicycle)
     } 
-         catch (error) {
-            console.error(err.message)
-            res.status.send('Server Error');
+    catch (error) {
+        console.error(err.message)
+        res.status.send('Server Error');
     }
     
 });
-
-//route delete api/bicycles
-//desc delete bicycle
-//access private  
 
 router.delete('/:id', auth, async (req,res)=>{
     try {
@@ -94,12 +137,10 @@ router.delete('/:id', auth, async (req,res)=>{
         bicycle = await Bicycle.findByIdAndRemove(req.params.id)
         res.json({"msg": "bicycleRemove"})
     } 
-         catch (error) {
-            console.error(err.message)
-            res.status.send('Server Error');
+    catch (error) {
+        console.error(err.message)
+        res.status.send('Server Error');
     }
-    })
-
-
+})
 
 module.exports = router;

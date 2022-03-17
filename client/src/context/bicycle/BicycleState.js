@@ -3,8 +3,8 @@ import React,{useReducer, useContext} from 'react'
 import axios from 'axios'
 import BicycleContext from './bicycleContext'
 import BicycleReducer from './bicycleReducer'
-import { GET_BICYCLES, CLEAR_BICYCLES, ADD_BICYCLE, BICYCLE_ERROR, DELETE_BICYCLE, SET_CURRENT, CLEAR_CURRENT, UPDATE_BICYCLE, FILTER_BICYCLES, CLEAR_FILTER, SET_ALERT, REMOVE_ALERT } from '../types';
-import AuthContext from '../auth/authContext'
+import { GET_BICYCLES, SEARCH_BICYCLES,  CLEAR_BICYCLES, SET_LOADING, CHANGE_OWNER, SHOW_USERS, HIDE_USERS, ADD_BICYCLE, BICYCLE_ERROR, DELETE_BICYCLE, SET_CURRENT, CLEAR_CURRENT, UPDATE_BICYCLE, FILTER_BICYCLES, CLEAR_FILTER, SET_ALERT, REMOVE_ALERT } from '../types';
+import AuthContext from '../auth/authContext';
 
 const  BicycleState = props=>{
   const authContext = useContext(AuthContext)
@@ -12,15 +12,63 @@ const  BicycleState = props=>{
   const initialState ={
       current: null,
       filtered: null,
+      search: null,
       bicycles: null,
+      error:null,
+      showUsers:false,
+      loading:true
   }
 
   const [state,dispatch] = useReducer(BicycleReducer, initialState)
+  
+  const searchBicycles = async ()=>{
+    
+    try {
+      const res =  await axios.get('http://localhost:5000/api/bicycles/list')
+      dispatch({
+         type: SEARCH_BICYCLES, 
+         payload: res.data
+      }) 
+    } 
+    catch (error) {
+       
+      dispatch({
+        type: BICYCLE_ERROR, 
+        payload: error.response.msg
+     }) 
+    }
+  }
 
-  const getBicycles = async bicycle=>{
+
+  const getBicyclesList = async ()=>{
+    
+    try {
+      const res =  await axios.get('http://localhost:5000/api/bicycles/list')
+      dispatch({
+         type: GET_BICYCLES, 
+         payload: res.data
+      }) 
+    } 
+    catch (error) {
+       
+      dispatch({
+        type: BICYCLE_ERROR, 
+        payload: error.response.msg
+     }) 
+    }
+  }
+     const hideUsers = async ()=>{
+      
+      dispatch({
+        type: HIDE_USERS, 
+         
+     }) 
+    }
+
+  const getBicycles = async ()=>{
       const config = {
         headers : {
-          "authorization" : localStorage.token 
+          "authorization" : token
         }
       }
       try {
@@ -33,16 +81,20 @@ const  BicycleState = props=>{
       catch (error) {
         dispatch({
           type: BICYCLE_ERROR, 
-          payload: error.response.msg
+          payload: error.response? error.response.msg : ""
        }) 
       }
     }
+    
+    const setLoading = ()=>{ dispatch({ type: SET_LOADING }) }
+
+    const showUsersList = ()=>{ dispatch({ type: SHOW_USERS }) }
 
     const addBicycle = async bicycle=>{
       const config = {
         headers : {
             'Content-type' : 'application/json',
-            "authorization" : localStorage.token 
+            "authorization" : token
         }
       }
       try {
@@ -63,13 +115,13 @@ const  BicycleState = props=>{
     const clearBicycles = id =>{
       dispatch({type: CLEAR_BICYCLES, payload:id})
     }
-    const deleteBicycle = async id =>{
 
-       
+    
+    const deleteBicycle = async id =>{
         const config = {
           headers : {
               'Content-type' : 'application/json',
-              "authorization" : localStorage.token 
+              "authorization" : token
           }
         }
         try {
@@ -86,7 +138,7 @@ const  BicycleState = props=>{
             payload: error.response.msg
          }) 
         }
-     }
+    }
     const setCurrent = bicycle =>{
       dispatch({type: SET_CURRENT, payload:bicycle})
     }
@@ -99,7 +151,7 @@ const  BicycleState = props=>{
       const config = {
         headers : {
             'Content-type' : 'application/json',
-            "authorization" : localStorage.token 
+            "authorization" : token
         }
       }
       try {
@@ -117,6 +169,45 @@ const  BicycleState = props=>{
       }
     }
 
+    const changeOwner = async (id, userId) =>{
+      // setLoading();
+      const config = {
+        headers : {
+          'Content-Type': 'application/json',
+          "authorization" : token,
+          // 'Access-Control-Allow-Methods':'*',
+          // 'Access-Control-Allow-Origin':'*',
+          // 'Accept':'*/*',
+          // "Accept-Encoding":"gzip, deflate, br"
+        }
+      }
+
+      const headers = {
+        'Content-Type': 'application/json',
+        "authorization" : token,
+        // 'Access-Control-Allow-Methods':'*',
+        // 'Access-Control-Allow-Origin':'*',
+        // 'Accept':'*/*',
+        
+      }
+
+      try {
+         const res =  await axios.post(`http://localhost:5000/api/bicycles/changeOwner/${id}`, 
+              {userId: userId}, {headers: headers })
+
+         dispatch({
+           type: CHANGE_OWNER, 
+           payload: res.data
+        }) 
+      } 
+      catch (error) {
+        dispatch({
+          type: BICYCLE_ERROR, 
+          payload: error
+       }) 
+      }
+    }
+
     const filterBicycles = text =>{
       dispatch({type: FILTER_BICYCLES, payload:text})
     }
@@ -127,10 +218,14 @@ const  BicycleState = props=>{
 
     return  <BicycleContext.Provider
                 value={{
-                    bicycles:state.bicycles,
-                    current:state.current,
-                    filtered:state.filtered,
-                    error:state.error,
+                    bicycles: state.bicycles,
+                    current: state.current,
+                    filtered: state.filtered,
+                    error: state.error,
+                    showUsers: state.showUsers,
+                    search: state.search,
+                    showUsersList,
+                    setLoading,
                     addBicycle,
                     deleteBicycle,
                     clearBicycles,
@@ -140,7 +235,11 @@ const  BicycleState = props=>{
                     filterBicycles,
                     clearFilter,
                     getBicycles,
-
+                    getBicyclesList,
+                    changeOwner,
+                    hideUsers,
+                    searchBicycles,
+                    
                  }}
 
             >{props.children}

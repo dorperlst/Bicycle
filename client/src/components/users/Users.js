@@ -1,27 +1,43 @@
-import React,{ useContext} from 'react'
- import BicycleContext from '../../context/bicycle/bicycleContext'
-
-const userStyle = {
-    display:"grid" ,
-    gridTemplateColumns:'repeat(3, 1fr)',
-    gridGap:'1 rem'
-}  
-
-const users = () =>  {
-    const bicycleContext = useContext(BicycleContext)
-    const{ users} = bicycleContext
-           return (
-            <div className="container">
-                
-                <div style={userStyle                                                                   }>
-                    {users.map(user=>(
-                          <div>{user.id}{user.name} </div>
-                    ))}
-                </div>
-            </div>
-        )
-    
-}
-
  
-export default users
+
+import React,{ useContext, useEffect} from 'react'
+import { Fragment } from 'react'
+import UserContext from '../../context/user/userContext'
+ import Spinner from '../layout/Spinner'
+
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { UserItem } from './UserItem'
+import '../../style/users.css';
+
+const Users = () =>  {
+    const userContext = useContext(UserContext)
+
+    const{ users, filterUsers, loading} = userContext
+    useEffect(() => {
+        filterUsers()
+     //eslint-disable-next-line
+    }, [])
+
+   
+    return (
+        <Fragment>
+            {users !== null &&!loading ? ( 
+                    <div className="__profiles">  
+                    {users.length>0 ?  
+                        <TransitionGroup>
+                            {  
+                                users.map(user=>(
+                                    <CSSTransition key={user._id} timeout = {1500} className="item">
+                                        <UserItem  key={user._id} user = {user} />
+                                    </CSSTransition> ))          
+                            }
+                        </TransitionGroup>:<div>No Users Found</div>}
+                    </div>
+                
+            ):<Spinner/>}
+           
+           </Fragment>
+          
+    )
+}
+export default Users

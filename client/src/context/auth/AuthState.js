@@ -4,7 +4,7 @@ import AuthContext from './authContext'
 import AuthReducer from './authReducer'
 import axios from 'axios'
 import setAuthToken from '../../utils/setAuthToken'
-import {  REGISTER_FAIL, REGISTER_SUCCESS, SET_LOADING,
+import {  REGISTER_FAIL, REGISTER_SUCCESS,SET_LOADING,
 USER_LOADED ,
 AUTH_ERROR ,
 LOGIN_SUCCESS,
@@ -13,25 +13,27 @@ CLEAR_ERRORS  } from '../types';
 
 
 const  AuthState =   (props) => {
- 
+    
     const initialState ={
-        token: localStorage.token ,
+        token: localStorage.token,
         isAuthenticated: false,
-        loading: false,
+        loading: null,
         error: null,
-        user: null
+        user: {
+            name: '',
+            email: '',
+            password: '',
+            password2: ''
+       }
     }
-
     
+   
     const [state,dispatch] = useReducer(AuthReducer, initialState)
-    
-    const { token,
-        isAuthenticated,
-        loading,
-        error,
-        user} = state
 
     const  loadUser = async()=>{
+      
+
+        var err = null
         try {
             
             if(localStorage.token === null){
@@ -45,32 +47,35 @@ const  AuthState =   (props) => {
                 setAuthToken(localStorage.token )
                 const api = 'http://localhost:5000/api/auth'; 
                
-                 axios.get(api , { headers: {"authorization" : localStorage.token } })
-                .then(res => {
+                var res = await axios.get(api , { headers: {"authorization" : localStorage.token } })
+                if(res.status === 200)
                     dispatch({
                         type: USER_LOADED, 
                         payload: res.data
-                     }) 
-                    })
+                        }) 
+                else
+                    dispatch({
+                        type: REGISTER_FAIL, 
+                        payload: "Unknown Error"
+                    }) 
+                 
             }
-            
-          
         } catch (error) {
-            dispatch ({type: AUTH_ERROR})
-            
+         
+            dispatch({
+                type: REGISTER_FAIL, 
+                payload: err
+            }) 
         }
     };
     const  logout = () => dispatch({type: LOGOUT});
-     
+    const  setLoading = () => dispatch({type: SET_LOADING});
+
+    
     const  clearErrors = () => dispatch({type: CLEAR_ERRORS});
 
     const register = async FormData =>{
-        const config = {
-            headers : {
-                'Content-type' : 'application/json',
-            }
-
-        }
+        const config = { headers : {'Content-type' : 'application/json' } }
         try {
             const res =  await axios.post('http://localhost:5000/api/users', FormData, config)
             dispatch({
@@ -78,11 +83,9 @@ const  AuthState =   (props) => {
                payload: res.data
             }) 
             loadUser()
-
-
-        } catch (error) {
+        }
+        catch (error) {
             console.log(error)
-
             dispatch({
                 type: REGISTER_FAIL, 
                 payload: error
@@ -104,10 +107,9 @@ const  AuthState =   (props) => {
                payload: res.data
             }) 
  
-            loadUser()
-
-
-        } catch (error) {
+            await loadUser()
+        } 
+        catch (error) {
             console.log(error)
 
             dispatch({
@@ -116,10 +118,11 @@ const  AuthState =   (props) => {
             }) 
         }
     }
-     
+    // if(localStorage !== null ) 
+    //     loadUser()
     return  <AuthContext.Provider
                 value={{
-                    token: state.bicycles,
+                    token: state.token,
                     isAuthenticated: state.isAuthenticated,
                     loading:state.loading,
                     user: state.user,
@@ -128,7 +131,8 @@ const  AuthState =   (props) => {
                     login,
                     logout,
                     loadUser,
-                    clearErrors
+                    clearErrors,
+                    setLoading
 
                  }}
 

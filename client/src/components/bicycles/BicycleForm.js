@@ -1,22 +1,19 @@
-import React,{useState, useEffect, useContext} from 'react'
+import React,{useState, useEffect,Fragment, useContext} from 'react'
 
 import BicycleContext from '../../context/bicycle/bicycleContext';
+import UserContext from '../../context/user/userContext'
+import validator from 'validator';
 
 const BicycleForm = () => {
     const bicycleContext= useContext(BicycleContext)
-    const {current, addBicycle, clearCurrent, updateBicycle} = bicycleContext
+    const userContext = useContext(UserContext) 
+
+    const {current, addBicycle, showUsersList, clearCurrent, updateBicycle} = bicycleContext
+    const {filterUsers, users} = userContext
+
     const [bicycle, setBicycle] = useState({})
-    // var cont = !bicycle?
-    // { 
-    //     id : '',
-    //     name :"sgsdfg",
-    //     email:"sdf@dd.com",
-    //     phone:"111-222-555",
-    //     type :"personal"
-    // }:bicycle
-
-    const{name, email, phone, type} = bicycle;
-
+    const{code} = bicycle;
+    
     useEffect(() => {
 
         if(current !== null){
@@ -25,52 +22,59 @@ const BicycleForm = () => {
         else
             setBicycle({ 
                 id : '',
-                name :"",
-                email:"",
-                phone:"",
-                type :"personal"
+                code :"",
             })
 
-    }, [bicycleContext, current])
+    }, [current])
+
+    const onChangeOwner =(e)  =>  
+    {
+        e.preventDefault()
+        showUsersList()
+    }
 
     const onSubmit = e =>{
         e.preventDefault()
         current === null? addBicycle(bicycle): updateBicycle(bicycle)
- 
         clearCurrent()
         setBicycle({
-            name:'',
-            email:'',
-            phone:'',
-            type:'personal'
+            code:''          
         })
     }
 
     const clearAll = (e) =>{
-        // e.preventDefault();
+        e.preventDefault();
         clearCurrent()
         
     }
 
-    const onChange = e => setBicycle({
-        ...bicycle, [e.target.name]:e.target.value
-    })
-
+    const onChange = (e) => 
+    {
+             setBicycle({
+            ...bicycle, [e.target.name]:e.target.value
+        })
+    }
     return (
-        <div>             
+        <div> 
+                        
             <form onSubmit={onSubmit}>
                 <h2 className="text-primary">{(!current )? "Add Bicycle" : "Edit Bicycle" }</h2>
-                <input type="text" placeholder="Name" name="name" value={name} onChange={onChange}/>
-                <input type="email" placeholder="Email" name="email" value={email} onChange={onChange}/>
-                <input type="text" placeholder="Phone" name="phone" value={phone} onChange={onChange}/>
-                <h5>Bicycle Type {type}</h5>
-                <input type="radio" name="type" value ="personal" onChange={onChange} checked={type==='personal'}/>Personal{' '}
-                <input type="radio" name="type" value ="professional" onChange={onChange} checked={type==='professional'}/>Professional{' '}
-                <div><input type="submit" value={(!current) ? "Add Bicycle" : "Update Bicycle" }  className="btn btn-primary btn-block"/></div>
-                
+
+                <input type="text" placeholder="Code" className="form-control" required minLength="5" name="code" value={code} onChange={onChange}/>
+                 <p className='addBicycle'>
+                    <button type="submit"  
+                         className="btn btn-outline-primary">{(!current) ? "Add Bicycle" : "Update Bicycle" } </button>
+                </p>
+  
+                { (current!==null )&&
+                    <p> 
+                        <button type="button" onClick={clearAll} className="btn btn-outline-warning">Clear</button>
+                        <button type="button" onClick={onChangeOwner}  className="btn btn-outline-danger">Change Owner</button>
+                    </p>
+                   }
             </form>
-            {(current!==null )&& <div><button className='btn btn-light btn-block' onClick={clearAll}>Clear</button> </div>}
-        </div>
+          </div>
+
     )
 }
 export default BicycleForm

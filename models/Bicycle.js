@@ -5,21 +5,12 @@ const BicycleSchema = mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: User,
-
     },
-    name:{
+    code:{
         type: String,
         require: true,
-
+        unique: true
     },
-    email:{
-        type: String,
-        require: true,
-    },
-    phone:{
-        type: String,
-    },
-    
     type:{
         type: String,
         default: 'Personal'

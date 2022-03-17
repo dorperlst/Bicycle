@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-
+form{
+  margin: 10px;
+ }
 
 .item-enter {
   opacity: 0;
@@ -17,9 +19,6 @@
   transition: opacity 1000ms ease-in;
 }
 
- 
-
-
 /* Global Styles */
 :root {
   --primary-color: #003699;
@@ -34,6 +33,32 @@
   margin: 0;
   padding: 0;
 }
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+.elem {
+  padding: 40px 30px;
+  background: #aaa;
+  animation: fadeIn 2s;
+}
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -46,6 +71,14 @@ body {
 a {
   color: var(--primary-color);
   text-decoration: none;
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
 }
 
 a:hover {
@@ -94,6 +127,12 @@ img {
   color: var(--primary-color);
 }
 
+div[disabled]
+{
+  pointer-events: none;
+  opacity: 0.2;
+}
+
 .text-dark {
   color: var(--dark-color);
 }
@@ -109,12 +148,15 @@ img {
 .text-left {
   text-align: left;
 }
-
-/* Cards */
-.card {
+.addBicycle
+{
+  margin-top: 10px;
+}
+ .card {
   padding: 1rem;
   border: #ccc 1px dotted;
   margin: 0.7rem 0;
+  margin: 10px;
 }
 
 /* List */
@@ -373,38 +415,31 @@ table th {
   background: var(--light-color);
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.7rem 2rem;
-  z-index: 1;
-  width: 100%;
-  border-bottom: solid 1px var(--primary-color);
-  opacity: 0.9;
-  margin-bottom: 1rem;
-}
+ .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 2rem;
+    width: 100%;
+    border-bottom: solid 1px var(--primary-color);
+  }
 
 .navbar ul {
   display: flex;
 }
+.fa-sign-out-alt{ padding: 5px; }
 
 .navbar a {
   color: #fff;
-  padding: 0.45rem;
-  margin: 0 0.25rem;
+  padding-left: 7px;
+  padding-right: 7px;
+  display: flex;
 }
 
 .navbar a:hover {
   color: var(--light-color);
 }
 
-.navbar .welcome span {
-  margin-right: 0.6rem;
-}
-
-/* Animation (Add After) */
 .item-enter {
   opacity: 0;
 }
@@ -454,7 +489,9 @@ table th {
   .navbar h1 {
     margin-bottom: 0.6rem;
   }
-
+  .navbar i {
+     padding-right: 10px ;
+  }
   .navbar ul {
     text-align: center;
     justify-content: center;

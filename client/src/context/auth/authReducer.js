@@ -6,13 +6,13 @@ export default(state, action)=>{
         case SET_LOADING:
             return{ ...state,  loading:true}
         case USER_LOADED:
-            return{ ...state, isAuthenticated :true, loading:false, user:action.payload}
+            return{ ...state, isAuthenticated :true, token : localStorage.token, loading:false, user:action.payload}
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
-            localStorage.setItem('token', action.payload.token, 6000000)
+            localStorage.setItem('token', action.payload.token, 60000)
             return{
                 ...state,
-                ...action.payload,
+                token : localStorage.token,
                 isAuthenticated: true,
                 loading: false
             }

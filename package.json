@@ -8,7 +8,8 @@
     "server": "nodemon --inspect server.js",
     "client": " npm start --prefix client/",
     "clientinstall": "npm install --perfix client",
-    "dev": "concurrently --kill-others \"npm run server\" \"npm run client\""
+    "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
+    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --perfix clent && npm run build --prefix client "
   },
   "author": "",
   "license": "ISC",
@@ -21,5 +22,5 @@
     "express-validator": "^6.13.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.14"
-  } 
+  }
 }

@@ -3,26 +3,30 @@ import AuthContext from '../../context/auth/authContext'
 import AlertContext from '../../context/alert/alertContext'
 import { useNavigate } from "react-router-dom";
 import Spinner from '../layout/Spinner'
+import '../../style/login.css';
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 const Login = (props) => {
+    // localStorage.token=null;
     const alertContext = useContext(AlertContext)
     const authContext = useContext(AuthContext)
     const {setAlert} = alertContext
-    const {login, loadUser, loading, error, clearErrors, isAuthenticated} = authContext
+    const {login, loadUser, loading, error, clearErrors, token, isAuthenticated} = authContext
     const navigate = useNavigate();
      useEffect(() => {
         if(isAuthenticated)
         {
-            // alert("navigate")
-            navigate('/');
+             navigate('/myBicycle');
         }
-         
+       
         if(error !== undefined && error !== null && error !== ''){
             setAlert(error.message, "danger")
             clearErrors()
         }
         //eslint-disable-next-line
-    }, [error, isAuthenticated])
+    }, [error, isAuthenticated, token])
+ 
+ 
 
     const [user, setUser] = useState({
          email: 'dorperlst@gmail.com',
@@ -49,14 +53,13 @@ const Login = (props) => {
         }               
     }
     const {  name, email, password} = user
-    const needLoading = !isAuthenticated && localStorage.token != null
+    const needLoading = !isAuthenticated && token !== null && token !== "null" && token !== undefined
     if(needLoading)
         loadUser()
-    if(loading||needLoading||isAuthenticated)
+    if(loading ||needLoading || isAuthenticated)
         return  <Fragment>
         <h2>LOGIN...</h2><Spinner/>
       </Fragment>
-
        
     return (
         <div className='form-container'>
@@ -65,7 +68,7 @@ const Login = (props) => {
              
                 <div className='form-group'>
                     <label htmlFor='email'>Email</label>
-                    <input name="email"  required value={email} onChange={onChange} type="text"/>
+                    <input name="email"  required value={email} onChange={onChange} type="email"/>
                 </div>
                 <div className='form-group'>
                     <label htmlFor='password'>Password</label>

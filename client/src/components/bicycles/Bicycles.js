@@ -5,11 +5,12 @@ import { BicycleItem } from './BicycleItem'
 import Spinner from '../layout/Spinner'
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import BicycleFilter from './BicycleFilter'
  
 const Bicycles = () =>  {
     const bicycleContext = useContext(BicycleContext)
 
-    const{ bicycles, filtered, getBicycles, loading} = bicycleContext
+    const{ bicycles, filtered, getBicycles, current, loading} = bicycleContext
     useEffect(() => {
        getBicycles()
      //eslint-disable-next-line
@@ -17,9 +18,11 @@ const Bicycles = () =>  {
 
     if(bicycles!== null && bicycles.length === 0  &&! loading)
         return <h3>Please Add Bicycle</h3>
+    var disable = current !== null ? "true" : "false"
     return (
-        <Fragment>
-            {bicycles !==null &&!loading ? ( <TransitionGroup>
+        
+        <div disabled= {current !== null  && "disabled"}><BicycleFilter/>
+            {bicycles !== null &&!loading ? ( <TransitionGroup>
                 {filtered!==null?  
                     filtered.map(bicycle=>(
                         <CSSTransition key={bicycle._id} timeout={1500} className="item">
@@ -27,13 +30,12 @@ const Bicycles = () =>  {
                         </CSSTransition> )):
 
                     bicycles.map(bicycle=>(
-                        <CSSTransition key={bicycle._id} timeout={1500} className="item">
-                            <BicycleItem key={bicycle._id} bicycle={bicycle} /> 
+                        <CSSTransition  timeout={1500} >
+                            <BicycleItem  key={bicycle._id} bicycle={bicycle} /> 
                         </CSSTransition> ))           
                 }
             </TransitionGroup>):<Spinner/>}
-           
-           </Fragment>
+           </div>
           
     )
 }
