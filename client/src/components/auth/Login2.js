@@ -41,7 +41,7 @@ const Login = (props) => {
         {
             try
             {
-                login({ email.value, password})
+                login({ email, password})
             }
             catch(error)
             {
@@ -65,7 +65,7 @@ const Login = (props) => {
                     <form onSubmit={onSubmit} method="post" name="login">
                             <div className="form-group">
                                 <label htmlFor="email">Email address</label>
-                                <input type="email" name="email" value={email}   className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
+                                <input type="email" name="email" value={email} onChange={onChange}  className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
