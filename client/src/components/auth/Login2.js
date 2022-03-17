@@ -34,20 +34,18 @@ const Login = (props) => {
   
     const onSubmit = e =>{
         e.preventDefault()
-         if(name === '' || password === '' || email === ''){
-            setAlert('Please Enter all fields', 'danger')
-        }
-        else
+        
+        
+        try
         {
-            try
-            {
-                login({ email, password})
-            }
-            catch(error)
-            {
-                console.log ("error"+ error)
-            }
-        }               
+            login({ email: 'dorperlst@gmail.com',
+            password: '111111'})
+        }
+        catch(error)
+        {
+            console.log ("error"+ error)
+        }
+                     
     }
     const {name, email, password} = user
  
