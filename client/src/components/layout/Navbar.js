@@ -1,6 +1,5 @@
 import React ,{useContext, Fragment} from 'react';
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
  
 const Navbar  = ({icon, title}) =>     {
@@ -13,7 +12,7 @@ const Navbar  = ({icon, title}) =>     {
 
     const authLinks =(
         <Fragment>   
-            <li><Link to="/myBicycle" >Home</Link></li>
+            <li><a href= "/myBicycle">Home</a></li>
 
             { user && (<li> Hello {user.name}</li>) }
             <li>
@@ -26,15 +25,15 @@ const Navbar  = ({icon, title}) =>     {
 
     const guestLinks =(
         <Fragment>
-            <li><Link to="/login" >Login</Link></li>
-            <li><Link to="/register" >Register</Link></li>
+            <li><a href ="/login" >Login</a></li>
+            <li><a href ="/register" >Register</a></li>
         </Fragment>)
 
     return (
         <nav className="navbar bg-primary" >
             <h1> <i className ="fal fa-bicycle"></i> {title} </h1>
             <ul>
-                <li><Link to="/" >Search</Link></li>
+                <li><a href= "/">Search</a></li>
 
                 {isAuthenticated ? authLinks : guestLinks}
             </ul>

@@ -81,6 +81,7 @@ const Register = props => {
                 </div>
                 <div className='form-group'>
                     <label htmlFor='email'>Email</label>
+                    <input type="file" class="form-control-file" name="uploaded_file" />
                     <input name="email" required value={email} onChange={onChange} type="text"/>
                 </div>
                 <div className='form-group'>

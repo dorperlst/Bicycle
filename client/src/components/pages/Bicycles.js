@@ -1,4 +1,4 @@
-import React, {useContext, useEffect}   from 'react'
+import React  from 'react'
 import BicyclesList from '../bicycles/BicyclesList';
 import BicycleFilter from '../bicycles/BicycleFilter';
 

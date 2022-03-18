@@ -27,6 +27,7 @@ export const CHANGE_OWNER = 'CHANGE_OWNER'
 export const SHOW_USERS = 'SHOW_USERS'
 export const HIDE_USERS = 'HIDE_USERS'
 export const SEARCH_BICYCLES = 'SEARCH_BICYCLES'
+export const FILTER_BICYCLES_LIST= 'FILTER_BICYCLES_LIST'
 
 
 

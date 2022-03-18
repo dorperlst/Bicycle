@@ -1,4 +1,8 @@
-import { ADD_BICYCLE, SEARCH_BICYCLES, CHANGE_OWNER, SHOW_USERS, HIDE_USERS, GET_BICYCLES, CLEAR_BICYCLES, DELETE_BICYCLE, SET_CURRENT, CLEAR_CURRENT, UPDATE_BICYCLE, FILTER_BICYCLES, CLEAR_FILTER, SET_ALERT, REMOVE_ALERT, BICYCLE_ERROR, SET_LOADING } from '../types';
+import { ADD_BICYCLE, SEARCH_BICYCLES, CHANGE_OWNER, SHOW_USERS, HIDE_USERS, 
+            GET_BICYCLES, CLEAR_BICYCLES, DELETE_BICYCLE, SET_CURRENT, CLEAR_CURRENT,
+            UPDATE_BICYCLE, FILTER_BICYCLES, CLEAR_FILTER, BICYCLE_ERROR, SET_LOADING } 
+    from '../types';
+
 export default (state,action)=>{
     switch(action.type){
         case SET_LOADING:
@@ -13,11 +17,11 @@ export default (state,action)=>{
                 current :null
             }
         case HIDE_USERS:
-                return { 
-                    ...state,
-                    showUsers: false,
-                    loading: false
-                }     
+            return { 
+                ...state,
+                showUsers: false,
+                loading: false
+            }     
         case SHOW_USERS:
             return { 
                 ...state,
@@ -37,7 +41,7 @@ export default (state,action)=>{
             }
         case SEARCH_BICYCLES:
             return {...state,
-                search: action.payload,
+                bicycles: action.payload,
                 loading :false
             }
         case UPDATE_BICYCLE:
@@ -77,7 +81,7 @@ export default (state,action)=>{
 
         case FILTER_BICYCLES:
             return {
-                ...state,
+                ...state,loading:false,
                 filtered:state.bicycles.filter(bicycle=>{
                     const regex = new RegExp(`${action.payload}`,'gi')
                     return bicycle.code.match(regex) 

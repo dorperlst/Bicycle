@@ -7,29 +7,34 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
  
 const BicyclesList = () =>  {
     const bicycleContext = useContext(BicycleContext)
+    
     var disable = true 
-    const{ bicycles, search, filtered, getBicyclesList, searchBicycles, loading} = bicycleContext
+    const{ bicycles, filtered, searchBicycles, loading} = bicycleContext
+    //
     useEffect(() => {
+       
         searchBicycles()
       //eslint-disable-next-line
     }, [])
 
     
 
-    if(search!== null && search.length === 0  &&! loading)
-        return <h3>Please Add Bicycle</h3>
+    if(bicycles!== null && bicycles.length === 0  &&! loading)
+        return <h3>No Bicycle Found</h3>
     return (
         <div disabled= {loading  && "disabled"}>  
-        {search !== null && !loading ? ( <TransitionGroup>
-            {filtered!==null?  
+        {bicycles !== null && !loading ? ( <TransitionGroup>
+            {
+            filtered!==null?  
                 filtered.map(bicycle=>(
                     <CSSTransition   timeout={1500} className="item">
                         <BicycleListItem  key={bicycle.code}  bicycle={bicycle} />
-                    </CSSTransition> )):
-
-                search.map(bicycle=>(
-                         <BicycleListItem  key={bicycle.code} bicycle={bicycle} /> 
-                ))           
+                    </CSSTransition> ))
+                    :
+                    bicycles.map(bicycle=>(
+                        <CSSTransition  timeout={1500} >
+                            <BicycleListItem  key={bicycle._id} bicycle={bicycle} /> 
+                        </CSSTransition> ))            
             }
         </TransitionGroup>):<Spinner/>}
        </div>
