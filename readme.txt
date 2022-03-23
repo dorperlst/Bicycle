@@ -19,4 +19,10 @@ git commit -m "Prepare to deploy
 
 heroku git:remote -a rocky-island-83843
 
+git remote add origin https://github.com/dorperlst/Bucycle.git
+git branch -M main
+git push -u origin main
 
+git config --global user.name "John Doe"
+git config credential.helper store
+ylikethis2021
