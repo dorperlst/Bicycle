@@ -2,6 +2,10 @@
 node_modules/
 node_modules
 /client/build
+# JPEG
+*.jpg
+*.jpeg
+*.png
 /client/src/uploads/
 .DS_Store
 /client/.env.local
