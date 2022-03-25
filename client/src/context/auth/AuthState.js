@@ -21,7 +21,8 @@ const  AuthState =   (props) => {
        }
     }
     
-   
+    const url = `${window.location.protocol}//${window.location.hostname}:5000`
+
     const [state,dispatch] = useReducer(AuthReducer, initialState)
 
     const  loadUser = async()=>{
@@ -39,7 +40,7 @@ const  AuthState =   (props) => {
             else
             {
                 setAuthToken(localStorage.token )
-                const api = '/api/auth'; 
+                const api = `${url}/api/auth`; 
                
                 var res = await axios.get(api , { headers: {"authorization" : localStorage.token ,timeout: 10} })
                 if(res.status === 200)
@@ -73,7 +74,7 @@ const  AuthState =   (props) => {
         "encType" :"multipart/form-data"
     } }
         try {
-            const res =  await axios.post('/api/users', FormData, config)
+            const res =  await axios.post(`${url}/api/users`, FormData, config)
             dispatch({
                type: REGISTER_SUCCESS, 
                payload: res.data
@@ -98,7 +99,7 @@ const  AuthState =   (props) => {
         }
         try {
  
-            const res =  await axios.post('/api/auth', FormData, config)
+            const res =  await axios.post(`${url}/api/auth`, FormData, config)
             dispatch({
                type: LOGIN_SUCCESS, 
                payload: res.data

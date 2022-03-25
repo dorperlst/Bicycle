@@ -24,6 +24,7 @@ const  UserState = props=>{
    }) 
   }
 
+  const url = `${window.location.protocol}//${window.location.hostname}:5000`
   
   const filterUsers = async (term)=>{
     const config = {
@@ -32,7 +33,7 @@ const  UserState = props=>{
       }
     }
     try {
-      const res =  await axios.get(`/api/users/search?term=${term}`, config )
+      const res =  await axios.get(`${url}/api/users/search?term=${term}`, config )
       dispatch({
          type: FILTER_USERS, 
          payload: res.data

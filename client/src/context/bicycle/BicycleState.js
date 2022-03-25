@@ -31,13 +31,13 @@ const  BicycleState = props=>{
         timeout: 10
     }
   }
+  const url = `${window.location.protocol}//${window.location.hostname}:5000`
 
   const searchBicycles = async ()=>{
     
     try {
       
       
-      var url = `${window.location.protocol}//${window.location.hostname}:5000`
       const res =  await axios.get(`${url}/api/bicycles/list`)
       dispatch({
          type: SEARCH_BICYCLES, 
@@ -65,7 +65,7 @@ const  BicycleState = props=>{
   const getBicycles = async ()=>{
      
       try {
-        const res =  await axios.get('http://localhost:5000/api/bicycles', config)
+        const res =  await axios.get(`${url}/api/bicycles`, config)
         dispatch({
            type: GET_BICYCLES, 
            payload: res.data
@@ -86,7 +86,7 @@ const  BicycleState = props=>{
     const addBicycle = async FormData=>{
      
       try {
-        const res =  await axios.post('http://localhost:5000/api/bicycles', FormData, config)
+        const res =  await axios.post(`${url}/api/bicycles`, FormData, config)
         dispatch({
            type: ADD_BICYCLE, 
            payload: res.data
@@ -114,7 +114,7 @@ const  BicycleState = props=>{
         }
         try {
 
-          await axios.delete(`http://localhost:5000/api/bicycles/${id}`, config)
+          await axios.delete(`${url}/api/bicycles/${id}`, config)
           dispatch({
              type: DELETE_BICYCLE, 
              payload: id
@@ -139,7 +139,7 @@ const  BicycleState = props=>{
     const updateBicycle = async bicycle =>{
      
       try {
-        const res =  await axios.put(`http://localhost:5000/api/bicycles/${bicycle._id}`, bicycle, config)
+        const res =  await axios.put(`${url}/api/bicycles/${bicycle._id}`, bicycle, config)
         dispatch({
            type: UPDATE_BICYCLE, 
            payload: res.data
@@ -158,7 +158,7 @@ const  BicycleState = props=>{
       
 
       try {
-         const res =  await axios.post(`http://localhost:5000/api/bicycles/changeOwner/${id}`, 
+         const res =  await axios.post(`${url}/api/bicycles/changeOwner/${id}`, 
               {userId: userId}, config)
 
          dispatch({
