@@ -4,7 +4,29 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/User')
 const auth = require('../middlewere/auth');
 const Bicycle = require('../models/Bicycle');
- 
+const multer  = require('multer')
+
+var storage =   multer.diskStorage({
+    destination: function (req, file, callback) {
+      callback(null, 'client/src/uploads');
+    },
+    filename: function (req, file, callback) {
+      callback(null, file.originalname.substring(0,file.originalname.lastIndexOf('.')) + '-' + Date.now() + file.originalname.substring(file.originalname.lastIndexOf('.'),file.originalname.length));
+    }
+  });
+   
+  const upload = multer({
+    storage: storage ,
+    limits: {
+        fileSize: 10000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            return cb(new Error('Please upload an image'))
+        }
+        cb(undefined, true)
+    }
+  })
 
 router.get('/list', async (req,res)=>{
     try {
@@ -38,7 +60,7 @@ router.get('/', auth, async (req,res)=>{
 });
 
  
-router.post('/', [auth, [ body('code','code is required').notEmpty()]], async (req,res)=>{
+router.post('/',  upload.single('myFile'), [auth, [ body('code','code is required').notEmpty()]], async (req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -50,6 +72,8 @@ router.post('/', [auth, [ body('code','code is required').notEmpty()]], async (r
         {
             code, user:req.user.id
         });
+        if(req.file)
+            newBicycle.image = req.file.filename
         const bicycle = await newBicycle.save();
 
         res.json(bicycle)

@@ -1,6 +1,6 @@
 git init 
 git add .
-git commit -m "express sever setup"
+git commit -m "merge"
 git config --global user.name "doronps"
 
  
@@ -14,8 +14,12 @@ client: npm run build
 
 heroku login
 git add .
-git commit -m "Prepare to deploy
+git commit -m "Prepare to deploy"
  git push heroku master
+git push heroku +HEAD:master
+ $ git push heroku yourbranch:master
+
+
 {fieldname: 'myFile', originalname: 'index.jpeg', encoding: '7bit', mimetype: 'image/jpeg', destination: 'client/public/uploads', …}
   <img src={require(  './index-1648193566226.jpeg') }
                             alt={name} className="__picture"/>

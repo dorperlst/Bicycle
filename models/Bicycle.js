@@ -11,6 +11,9 @@ const BicycleSchema = mongoose.Schema({
         require: true,
         unique: true
     },
+    image:{
+        type:String ,
+    },
     type:{
         type: String,
         default: 'Personal'

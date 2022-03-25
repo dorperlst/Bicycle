@@ -2,7 +2,7 @@
 node_modules/
 node_modules
 /client/build
-/client/uploads
+/client/src/uploads/
 .DS_Store
 /client/.env.local
 /client/.env.development.local
