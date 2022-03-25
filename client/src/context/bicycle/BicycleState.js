@@ -35,7 +35,10 @@ const  BicycleState = props=>{
   const searchBicycles = async ()=>{
     
     try {
-      const res =  await axios.get('http://localhost:5000/api/bicycles/list')
+      
+      
+      var url = `${window.location.protocol}//${window.location.hostname}:5000`
+      const res =  await axios.get(`${url}/api/bicycles/list`)
       dispatch({
          type: SEARCH_BICYCLES, 
          payload: res.data
