@@ -1,6 +1,6 @@
 git init 
 git add .
-git commit -m "express sever setup"
+git commit -m "merge"
 git config --global user.name "doronps"
 
  
