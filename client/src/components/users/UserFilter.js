@@ -1,4 +1,4 @@
-import React,{useState, useEffect, useContext, useRef} from 'react'
+import React,{ useEffect, useContext, useRef} from 'react'
 
 import UserContext from '../../context/user/userContext';
 
@@ -16,7 +16,7 @@ const UserFilter = () => {
     })
      
     const onChange = e =>{
-        if(text.current.value != '')
+        if(text.current.value !=='')
             filterUsers(e.target.value)
         else
             clearFilter()

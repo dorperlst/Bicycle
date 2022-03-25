@@ -31,7 +31,7 @@ const Navbar  = ({icon, title}) =>     {
         <nav className="navbar bg-primary" >
             <h1> <i className ="fal fa-bicycle"></i> {title} </h1>
             <ul>
-                <li><NavLink to="/">Search</NavLink> </li>
+                <li><a href="/">Search</a> </li>
 
                 {isAuthenticated ? authLinks : guestLinks}
             </ul>
