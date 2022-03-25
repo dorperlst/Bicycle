@@ -27,13 +27,13 @@ const BicyclesList = () =>  {
             {
             filtered!==null?  
                 filtered.map(bicycle=>(
-                    <CSSTransition   timeout={1500} className="item">
-                        <BicycleListItem  key={bicycle.code}  bicycle={bicycle} />
+                    <CSSTransition  key={bicycle.code} timeout={1500} className="item">
+                        <BicycleListItem    bicycle={bicycle} />
                     </CSSTransition> ))
                     :
                     bicycles.map(bicycle=>(
-                        <CSSTransition  timeout={1500} >
-                            <BicycleListItem  key={bicycle._id} bicycle={bicycle} /> 
+                        <CSSTransition key={bicycle._id} timeout={1500} >
+                            <BicycleListItem   bicycle={bicycle} /> 
                         </CSSTransition> ))            
             }
         </TransitionGroup>):<Spinner/>}

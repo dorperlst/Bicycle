@@ -6,6 +6,29 @@ var bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const config = require('config')
 const auth = require('../middlewere/auth');
+const multer  = require('multer')
+
+var storage =   multer.diskStorage({
+    destination: function (req, file, callback) {
+      callback(null, 'client/src/uploads');
+    },
+    filename: function (req, file, callback) {
+      callback(null, file.originalname.substring(0,file.originalname.lastIndexOf('.')) + '-' + Date.now() + file.originalname.substring(file.originalname.lastIndexOf('.'),file.originalname.length));
+    }
+  });
+   
+  const upload = multer({
+    storage: storage ,
+    limits: {
+        fileSize: 10000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            return cb(new Error('Please upload an image'))
+        }
+        cb(undefined, true)
+    }
+  })
 
 
 router.get('/search', auth, async (req,res)=>{
@@ -16,8 +39,6 @@ router.get('/search', auth, async (req,res)=>{
             res.send(result)
             return  
         }
-         
-        req.user
         let result = await User.aggregate([
             {
                 '$search': {
@@ -58,9 +79,9 @@ router.get('/list', auth, async (req,res)=>{
     }
 });
 
-router.post('/', body('password').isLength(5), body('name').notEmpty(), body('email').isEmail(),
-        async (req,res)=>{
-
+router.post('/', upload.single('myFile'), body('password').isLength(5), 
+            body('name').notEmpty(), body('email').isEmail(), async (req,res)=>{
+        
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -73,32 +94,23 @@ router.post('/', body('password').isLength(5), body('name').notEmpty(), body('em
         if(user)
             return res.status(400).json({ errors: "user exist" });
         user = new User({name, email, password})
-    
+        if(req.file)
+            user.image = req.file.filename
+
         var salt =  bcrypt.genSaltSync(10);
         user.password =  bcrypt.hashSync(password, salt);
-
         await user.save();
-
-        const payload = {
-            user:{
-                id: user.id
-            }
-        }
+        const payload = { user:{ id: user.id } }
     
         jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, function(err, token) {
             if(err) throw err;
-
             res.json({"token": token})
-            
         });
 
-
-    } catch (error) {
+    } 
+    catch (error) {
         console.log(error.message)
-        res.status(500).send("server error")
-
-}
-
-
+        res.status(500).send(error.message)
+    }
 });
 module.exports = router;

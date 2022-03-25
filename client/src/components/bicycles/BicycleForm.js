@@ -6,15 +6,19 @@ import validator from 'validator';
 
 const BicycleForm = () => {
     const bicycleContext= useContext(BicycleContext)
-    const userContext = useContext(UserContext) 
+    // const userContext = useContext(UserContext) 
 
-    const {current, addBicycle, showUsersList, clearCurrent, updateBicycle} = bicycleContext
-    const {filterUsers, users} = userContext
-
+    const {current, addBicycle, showUsers, showUsersList, clearCurrent, updateBicycle} = bicycleContext
+    // const {filterUsers, users} = userContext
     const [bicycle, setBicycle] = useState({})
+    const [disable, setDisable] = useState(false)
+
     const{code} = bicycle;
-    
     useEffect(() => {
+
+        if(!showUsers ){
+            setDisable(false)
+       }
 
         if(current !== null){
              setBicycle(current)
@@ -25,10 +29,11 @@ const BicycleForm = () => {
                 code :"",
             })
 
-    }, [current])
+    }, [current, showUsers])
 
     const onChangeOwner =(e)  =>  
     {
+        setDisable(true)
         e.preventDefault()
         showUsersList()
     }
@@ -58,6 +63,9 @@ const BicycleForm = () => {
         <div> 
                         
             <form onSubmit={onSubmit}>
+                <div  disabled={disable && showUsers && "disabled"} >
+
+               
                 <h2 className="text-primary">{(!current )? "Add Bicycle" : "Edit Bicycle" }</h2>
 
                 <input type="text" placeholder="Code" className="form-control" required minLength="5" name="code" value={code} onChange={onChange}/>
@@ -72,6 +80,7 @@ const BicycleForm = () => {
                         <button type="button" onClick={onChangeOwner}  className="btn btn-outline-danger">Change Owner</button>
                     </p>
                    }
+                    </div>
             </form>
           </div>
 

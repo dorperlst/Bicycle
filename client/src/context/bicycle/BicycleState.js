@@ -28,7 +28,7 @@ const  BicycleState = props=>{
     headers : {
         'Content-type' : 'application/json',
         "authorization" : token,
-        timeout: 5000
+        timeout: 10
     }
   }
 

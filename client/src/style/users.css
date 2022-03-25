@@ -79,6 +79,7 @@
      
     
     .__picture {
+      margin :20px;
       max-width: 100%;
       width: 60px;
       border-radius: 50%;
@@ -90,14 +91,15 @@
       font-weight: 600;
       font-size: 20px;
       letter-spacing: 0.64px;
-      margin-left: 12px;
+      margin: 12px;
+      align-self: center;
     }
     
     .__value {
       color: #35d8ac;
       /* font-weight: 700; */
       font-size: 20px;
-      text-align: right;
+      text-align: center;
     }
     /* span {
         opacity: .8;
@@ -106,7 +108,17 @@
         margin-left: 3px;
     } */
   
-   .users {
+
+   .info {
+      
+     display: flex;
+     flex-direction: row;
+     justify-content: space-evenly;
+    }
+   
+
+
+   /* .users {
         z-index: 2;
         margin: 0;
         background-color: aliceblue;;
@@ -121,7 +133,7 @@
         width:90%;
         left:5%;
         opacity: 1;
-    }
+    } */
    
     /* .usersContainer{
       width: 100%;

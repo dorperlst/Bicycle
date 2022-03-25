@@ -3,7 +3,9 @@ const UserSchema = mongoose.Schema({
     name:{
         type:String,
         require:true,
-
+    },
+    image:{
+        type:String ,
     },
     email:{
         type:String,
@@ -13,7 +15,6 @@ const UserSchema = mongoose.Schema({
     password:{
         type:String,
         require:true,
-        
     },
     date:{
         type:Date,

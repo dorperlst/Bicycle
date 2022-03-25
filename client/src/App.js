@@ -7,8 +7,8 @@ import BicycleState from './context/bicycle/BicycleState'
 import AuthState from './context/auth/AuthState'
 import AlertState from './context/alert/AlertState'
 import Alerts from './components/layout/Alerts'
-import Register from './components/auth/Register2'
-import Login from './components/auth/Login2'
+import Register from './components/auth/Register'
+import Login from './components/auth/Login'
 import { About } from './components/pages/About';
 import { NotFound } from './components/pages/NotFound';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -34,8 +34,6 @@ const App =()  => {
                     <Route path="/" element={<Bicycles />} />
                     <Route path="*" element={<NotFound />} />
                     <Route path="/login" element={<Login />} />
-
- 
                   </Routes>
                 </div>
             </Fragment>

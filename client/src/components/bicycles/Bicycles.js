@@ -1,5 +1,4 @@
 import React,{ useContext, useEffect} from 'react'
-import { Fragment } from 'react'
 import BicycleContext from '../../context/bicycle/bicycleContext'
 import { BicycleItem } from './BicycleItem'
 import Spinner from '../layout/Spinner'
@@ -10,15 +9,15 @@ import BicycleFilter from './BicycleFilter'
 const Bicycles = () =>  {
     const bicycleContext = useContext(BicycleContext)
 
-    const{ bicycles, filtered, getBicycles, current, loading} = bicycleContext
+    const{ bicycles, clearCurrent, filtered, getBicycles, current, loading} = bicycleContext
     useEffect(() => {
+        clearCurrent()
        getBicycles()
      //eslint-disable-next-line
     }, [])
 
     if(bicycles!== null && bicycles.length === 0  &&! loading)
         return <h3>Please Add Bicycle</h3>
-    var disable = current !== null ? "true" : "false"
     return (
         
         <div disabled= {current !== null  && "disabled"}><BicycleFilter/>

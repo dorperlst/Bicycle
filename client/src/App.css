@@ -55,7 +55,7 @@ form{
 
 
 .elem {
-  padding: 40px 30px;
+  padding: 20px 40px 20px 40px;
   background: #aaa;
   animation: fadeIn 2s;
 }
@@ -283,6 +283,10 @@ div[disabled]
   background: var(--light-color);
   color: #333;
   border-radius: 5px;
+}
+
+.alert i {
+  padding-right: 5px;
 }
 
 .alert {

@@ -4,16 +4,10 @@ import AuthContext from './authContext'
 import AuthReducer from './authReducer'
 import axios from 'axios'
 import setAuthToken from '../../utils/setAuthToken'
-import {  REGISTER_FAIL, REGISTER_SUCCESS,SET_LOADING,
-USER_LOADED ,
-AUTH_ERROR ,
-LOGIN_SUCCESS,
-LOGIN_FAIL, LOGOUT,  
-CLEAR_ERRORS  } from '../types';
-
+import {  REGISTER_FAIL, REGISTER_SUCCESS,SET_LOADING, USER_LOADED, LOGIN_SUCCESS,
+            LOGIN_FAIL, LOGOUT, CLEAR_ERRORS  } from '../types';
 
 const  AuthState =   (props) => {
-    
     const initialState ={
         token: localStorage.token,
         isAuthenticated: false,
@@ -47,7 +41,7 @@ const  AuthState =   (props) => {
                 setAuthToken(localStorage.token )
                 const api = 'http://localhost:5000/api/auth'; 
                
-                var res = await axios.get(api , { headers: {"authorization" : localStorage.token } })
+                var res = await axios.get(api , { headers: {"authorization" : localStorage.token ,timeout: 10} })
                 if(res.status === 200)
                     dispatch({
                         type: USER_LOADED, 
@@ -75,7 +69,9 @@ const  AuthState =   (props) => {
     const  clearErrors = () => dispatch({type: CLEAR_ERRORS});
 
     const register = async FormData =>{
-        const config = { headers : {'Content-type' : 'application/json' } }
+        const config = { headers : {'Content-type' : 'application/json' ,
+        "encType" :"multipart/form-data"
+    } }
         try {
             const res =  await axios.post('http://localhost:5000/api/users', FormData, config)
             dispatch({
@@ -102,10 +98,7 @@ const  AuthState =   (props) => {
         }
         try {
  
-            const res =  await axios.post('http://localhost:5000/api/auth', {
-                email: 'dorperlst@gmail.com',
-                password: '111111'
-           }, config)
+            const res =  await axios.post('http://localhost:5000/api/auth', FormData, config)
             dispatch({
                type: LOGIN_SUCCESS, 
                payload: res.data
@@ -114,8 +107,6 @@ const  AuthState =   (props) => {
             await loadUser()
         } 
         catch (error) {
-            alert(error)
-
             console.log(error)
 
             dispatch({
