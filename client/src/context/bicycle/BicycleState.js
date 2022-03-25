@@ -80,10 +80,10 @@ const  BicycleState = props=>{
 
     const showUsersList = ()=>{ dispatch({ type: SHOW_USERS }) }
 
-    const addBicycle = async bicycle=>{
+    const addBicycle = async FormData=>{
      
       try {
-        const res =  await axios.post('http://localhost:5000/api/bicycles', bicycle, config)
+        const res =  await axios.post('http://localhost:5000/api/bicycles', FormData, config)
         dispatch({
            type: ADD_BICYCLE, 
            payload: res.data

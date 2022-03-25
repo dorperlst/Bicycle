@@ -12,14 +12,12 @@ const Navbar  = ({icon, title}) =>     {
 
     const authLinks =(
         <Fragment>   
-            <li><a href= "/myBicycle">Home</a></li>
+            <li> <NavLink to="/myBicycle">Home</NavLink> </li>
 
-            { user && (<li> Hellosss {user.name}</li>) }
+            { user && (<li> Hello {user.name}</li>) }
             <li>
-                <a onClick={onLogout} href='#!'>
-                    <span className='hide-sm'>Logout</span>
-                    <i className='fas fa-sign-out-alt'></i> 
-                </a> 
+                <NavLink onClick={onLogout} to="/login"><span className='hide-sm'>Logout</span>
+                    <i className='fas fa-sign-out-alt'></i> </NavLink>
             </li>
         </Fragment>)
 
@@ -33,7 +31,7 @@ const Navbar  = ({icon, title}) =>     {
         <nav className="navbar bg-primary" >
             <h1> <i className ="fal fa-bicycle"></i> {title} </h1>
             <ul>
-                <li><a href= "/">Search</a></li>
+                <li><NavLink to="/">Search</NavLink> </li>
 
                 {isAuthenticated ? authLinks : guestLinks}
             </ul>
