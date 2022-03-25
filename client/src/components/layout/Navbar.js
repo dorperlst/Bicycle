@@ -14,7 +14,7 @@ const Navbar  = ({icon, title}) =>     {
         <Fragment>   
             <li><a href= "/myBicycle">Home</a></li>
 
-            { user && (<li> Hello {user.name}</li>) }
+            { user && (<li> Hellosss {user.name}</li>) }
             <li>
                 <a onClick={onLogout} href='#!'>
                     <span className='hide-sm'>Logout</span>
